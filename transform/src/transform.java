@@ -71,7 +71,7 @@ public class transform {
             }
             if (checkArray(square1, square2)) {
                 status = 6;
-                continue;
+       
             }
         } while (false);
         System.out.println(status);
@@ -112,8 +112,8 @@ public class transform {
         int size = array1.length;
         for (int counterY = 0; counterY < size && status; counterY++) {
             for (int counterX = 0; counterX < Math.round(size / 2); counterX++) {
-                if (!((array1[counterY][counterX] && array2[counterY][size - 1 - counterX])
-                        || !(array1[counterY][counterX] && array2[counterY][size - 1 - counterX]))) {
+                if ((array1[counterY][counterX] && array2[counterY][size - 1 - counterX])
+                        || !(array1[counterY][counterX] && array2[counterY][size - 1 - counterX])) {
                     status = false;
                 }
             }
