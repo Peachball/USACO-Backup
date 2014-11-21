@@ -3,7 +3,6 @@
  TASK: transform
  LANG: JAVA
  */
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,6 +18,7 @@ public class transform {
     public static int size;
     public static boolean[][] square1;
     public static boolean[][] square2;
+    public static int status;
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         in = new BufferedReader(new FileReader("transform.in"));
@@ -39,32 +39,81 @@ public class transform {
                 square2[counterY][counterX] = reader.charAt(counterX) == '@';
             }
         }
-
+        status = 7;
+        do {
+            if (check90()) {
+                status = 1;
+                continue;
+            }
+            if (check180()) {
+                status = 2;
+                continue;
+            }
+            if (check270()) {
+                status = 3;
+                continue;
+            }
+            if (checkXReflection(square1, square2)) {
+                status = 4;
+                continue;
+            }
+            if (checkXReflection(rotate90(square1), square2)) {
+                status = 5;
+                continue;
+            }
+            if (checkXReflection(rotate90(rotate90(square1)), square2)) {
+                status = 5;
+                continue;
+            }
+            if (checkXReflection(rotate90(rotate90(rotate90(square1))), square2)) {
+                status = 5;
+                continue;
+            }
+            if (checkArray(square1, square2)) {
+                status = 6;
+                continue;
+            }
+        } while (false);
+        System.out.println(status);
+        out.println(status);
         out.close();
         System.exit(0);
     }
 
     static boolean check90() {
         boolean status = true;
+        boolean[][] buffer;
+        buffer = rotate90(square1);
+        status = checkArray(buffer, square2);
         return status;
     }
 
     static boolean check180() {
         boolean status = true;
+        boolean[][] buffer;
+        buffer = rotate90(square1);
+        buffer = rotate90(buffer);
+        status = checkArray(buffer, square2);
         return status;
     }
 
     static boolean check270() {
         boolean status = true;
+        boolean[][] buffer;
+        buffer = rotate90(square1);
+        buffer = rotate90(buffer);
+        buffer = rotate90(buffer);
+        status = checkArray(buffer, square2);
         return status;
     }
 
-    static boolean checkXReflection() {
+    static boolean checkXReflection(boolean[][] array1, boolean[][] array2) {
         boolean status = true;
+        int size = array1.length;
         for (int counterY = 0; counterY < size && status; counterY++) {
             for (int counterX = 0; counterX < Math.round(size / 2); counterX++) {
-                if (!((square1[counterY][counterX] && square2[counterY][size - 1 - counterX])
-                        || !(square1[counterY][counterX] && square2[counterY][size - 1 - counterX]))) {
+                if (!((array1[counterY][counterX] && array2[counterY][size - 1 - counterX])
+                        || !(array1[counterY][counterX] && array2[counterY][size - 1 - counterX]))) {
                     status = false;
                 }
             }
@@ -91,11 +140,22 @@ public class transform {
         boolean[][] buffer = new boolean[size][size];
         for (int counterY = 0; counterY < size; counterY++) {
             for (int counterX = 0; counterX < size; counterX++) {
-                if (counterX <= counterY) {
-                    buffer[counterY][counterX] = given[counterX+counterY][/*figure out what this should be...*/];
-                }
+                buffer[counterY][counterX] = given[size - 1 - counterX][counterY];
             }
         }
         return buffer;
+    }
+
+    static boolean checkArray(boolean[][] array1, boolean[][] array2) {
+        boolean similarity = true;
+        int size = array1.length;
+        for (int counterY = 0; counterY < size && similarity; counterY++) {
+            for (int counterX = 0; counterX < size && similarity; counterX++) {
+                if (!(array1[counterY][counterX] == array2[counterY][counterX])) {
+                    similarity = false;
+                }
+            }
+        }
+        return similarity;
     }
 }
