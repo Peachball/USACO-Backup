@@ -86,13 +86,16 @@ public class transform {
         return status;
     }
 
-    static boolean[][] rotate90(boolean[][] array) {
-        int size = array.length;
+    static boolean[][] rotate90(boolean[][] given) {
+        int size = given.length;
+        boolean[][] buffer = new boolean[size][size];
         for (int counterY = 0; counterY < size; counterY++) {
             for (int counterX = 0; counterX < size; counterX++) {
-                
+                if (counterX <= counterY) {
+                    buffer[counterY][counterX] = given[counterX+counterY][/*figure out what this should be...*/];
+                }
             }
         }
-        return array;
+        return buffer;
     }
 }
