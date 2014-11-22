@@ -3,12 +3,14 @@
  TASK: transform
  LANG: JAVA
  */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class transform {
@@ -40,40 +42,33 @@ public class transform {
             }
         }
         status = 7;
-        do {
-            if (check90()) {
-                status = 1;
-                continue;
-            }
-            if (check180()) {
-                status = 2;
-                continue;
-            }
-            if (check270()) {
-                status = 3;
-                continue;
-            }
-            if (checkXReflection(square1, square2)) {
-                status = 4;
-                continue;
-            }
-            if (checkXReflection(rotate90(square1), square2)) {
-                status = 5;
-                continue;
-            }
-            if (checkXReflection(rotate90(rotate90(square1)), square2)) {
-                status = 5;
-                continue;
-            }
-            if (checkXReflection(rotate90(rotate90(rotate90(square1))), square2)) {
-                status = 5;
-                continue;
-            }
-            if (checkArray(square1, square2)) {
-                status = 6;
-       
-            }
-        } while (false);
+        if (check90()) {
+            status = 1;
+        }
+        if (check180()) {
+            status = 2;
+        }
+        if (check270()) {
+            status = 3;
+        }
+        if (checkXReflection(arrayCutter(square1), arrayCutter(square2))) {
+            status = 4;
+        }
+        if (checkXReflection(arrayCutter(rotate90(square1)), arrayCutter(square2))) {
+            status = 5;
+        }
+        if (checkXReflection(arrayCutter(rotate90(rotate90(square1))), arrayCutter(square2))) {
+            status = 5;
+
+        }
+        if (checkXReflection(arrayCutter(rotate90(rotate90(rotate90(square1)))), arrayCutter(square2))) {
+            status = 5;
+
+        }
+        if (Arrays.equals(arrayCutter(square1), arrayCutter(square2))) {
+            status = 6;
+
+        }
         System.out.println(status);
         out.println(status);
         out.close();
@@ -84,7 +79,7 @@ public class transform {
         boolean status = true;
         boolean[][] buffer;
         buffer = rotate90(square1);
-        status = checkArray(buffer, square2);
+        status = Arrays.equals(buffer, square2);
         return status;
     }
 
@@ -93,7 +88,7 @@ public class transform {
         boolean[][] buffer;
         buffer = rotate90(square1);
         buffer = rotate90(buffer);
-        status = checkArray(buffer, square2);
+        status = Arrays.equals(buffer, square2);
         return status;
     }
 
@@ -103,12 +98,13 @@ public class transform {
         buffer = rotate90(square1);
         buffer = rotate90(buffer);
         buffer = rotate90(buffer);
-        status = checkArray(buffer, square2);
+        status = Arrays.equals(buffer, square2);
         return status;
     }
 
     static boolean checkXReflection(boolean[][] array1, boolean[][] array2) {
         boolean status = true;
+        boolean[][] buffer = new boolean[array1.length][array1[0].length];
         int size = array1.length;
         for (int counterY = 0; counterY < size && status; counterY++) {
             for (int counterX = 0; counterX < Math.round(size / 2); counterX++) {
@@ -116,6 +112,7 @@ public class transform {
                         || !(array1[counterY][counterX] && array2[counterY][size - 1 - counterX])) {
                     status = false;
                 }
+
             }
         }
         return status;
@@ -146,16 +143,42 @@ public class transform {
         return buffer;
     }
 
-    static boolean checkArray(boolean[][] array1, boolean[][] array2) {
-        boolean similarity = true;
-        int size = array1.length;
-        for (int counterY = 0; counterY < size && similarity; counterY++) {
-            for (int counterX = 0; counterX < size && similarity; counterX++) {
-                if (!(array1[counterY][counterX] == array2[counterY][counterX])) {
-                    similarity = false;
+    static boolean[][] arrayCutter(boolean[][] array1) {
+        boolean[][] buffer;
+        int lengthY = array1.length;
+        int lengthX = array1[0].length;
+        boolean startofArray = false;
+        int position1X = 0;
+        int position2X = lengthX - 1;
+        for (int counterY = 0; counterY < lengthY; counterY++) {
+            for (int counterX = 0; counterX < lengthX; counterX++) {
+                if (array1[counterY][counterX] && !startofArray) {
+                    startofArray = true;
+                    position1X = counterY;
+                }
+                if (startofArray && array1[counterY][counterX]) {
+                    position2X = counterY;
                 }
             }
         }
-        return similarity;
+        startofArray = false;
+        int position1Y = 0;
+        int position2Y = lengthY - 1;
+        for (int counterX = 0; counterX < lengthY; counterX++) {
+            for (int counterY = 0; counterY < lengthX; counterY++) {
+                if (array1[counterY][counterX] && !startofArray) {
+                    startofArray = true;
+                    position1Y = counterX;
+                }
+                if (startofArray && array1[counterY][counterX]) {
+                    position2Y = counterX;
+                }
+            }
+        }
+        buffer = new boolean[position2Y - position1Y + 1][position2X - position1X + 1];
+        for (int counter = position1Y; counter < position2Y; counter++) {
+            buffer[counter] = Arrays.copyOfRange(array1[counter], position1X, position2X + 1);
+        }
+        return buffer;
     }
 }
