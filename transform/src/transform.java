@@ -42,30 +42,40 @@ public class transform {
         status = 7;
         boolean[][] buffer1;
         boolean[][] buffer2;
-        if (arrayChecker(buffer1 = arrayCutter(rotate90(square1)), buffer2 = arrayCutter(square2))) {
-            status = 1;
-        }
-        if (arrayChecker(arrayCutter(rotate90(rotate90(square1))), arrayCutter(square2))) {
-            status = 2;
-        }
-        if (arrayChecker(arrayCutter(rotate90(rotate90(rotate90(square1)))), arrayCutter(square2))) {
-            status = 3;
-        }
-        if (arrayChecker(arrayCutter(XReflection(square1)), arrayCutter(square2))) {
-            status = 4;
-        }
-        if (arrayChecker(arrayCutter(XReflection(rotate90(square1))), arrayCutter(square2))) {
-            status = 5;
-        }
-        if (arrayChecker(arrayCutter(XReflection(rotate90(rotate90(square1)))), arrayCutter(square2))) {
-            status = 5;
-        }
-        if (arrayChecker(arrayCutter(XReflection(rotate90(rotate90(rotate90(square1))))), arrayCutter(square2))) {
-            status = 5;
-        }
-        if (arrayChecker(arrayCutter(square1), arrayCutter(square2))) {
-            status = 6;
-        }
+        do {
+            if (arrayChecker(buffer1 = arrayCutter(rotate90(square1)), buffer2 = arrayCutter(square2))) {
+                status = 1;
+                continue;
+            }
+            if (arrayChecker(arrayCutter(rotate90(rotate90(square1))), arrayCutter(square2))) {
+                status = 2;
+                continue;
+            }
+            if (arrayChecker(arrayCutter(rotate90(rotate90(rotate90(square1)))), arrayCutter(square2))) {
+                status = 3;
+                continue;
+            }
+            if (arrayChecker(arrayCutter(XReflection(square1)), arrayCutter(square2))) {
+                status = 4;
+                continue;
+            }
+            if (arrayChecker(arrayCutter(XReflection(rotate90(square1))), arrayCutter(square2))) {
+                status = 5;
+                continue;
+            }
+            if (arrayChecker(arrayCutter(XReflection(rotate90(rotate90(square1)))), arrayCutter(square2))) {
+                status = 5;
+                continue;
+            }
+            if (arrayChecker(arrayCutter(XReflection(rotate90(rotate90(rotate90(square1))))), arrayCutter(square2))) {
+                status = 5;
+                continue;
+            }
+            if (arrayChecker(arrayCutter(square1), arrayCutter(square2))) {
+                status = 6;
+            }
+
+        } while (false);
         System.out.println(status);
         out.println(status);
         out.close();
@@ -111,7 +121,7 @@ public class transform {
             return false;
         }
         for (int counter = 0; counter < sizeY; counter++) {
-            if(!Arrays.equals(array1[counter],array2[counter])){
+            if (!Arrays.equals(array1[counter], array2[counter])) {
                 return false;
             }
         }
@@ -151,7 +161,7 @@ public class transform {
             }
         }
         buffer = new boolean[position2Y - position1Y + 1][position2X - position1X + 1];
-        for (int counter = position1Y; counter <= position2Y; counter++) {
+        for (int counter = 0; counter < buffer.length; counter++) {
             buffer[counter] = Arrays.copyOfRange(array1[counter], position1X, position2X + 1);
         }
         return buffer;
