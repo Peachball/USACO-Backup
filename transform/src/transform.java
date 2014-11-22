@@ -41,7 +41,6 @@ public class transform {
             }
         }
         status = 7;
-        boolean[][] buffer;
         if (Arrays.equals(arrayCutter(rotate90(square1)), arrayCutter(square2))) {
             status = 1;
         }
@@ -72,32 +71,7 @@ public class transform {
         System.exit(0);
     }
 
-//    static boolean check90() {
-//        boolean status = true;
-//        boolean[][] buffer;
-//        buffer = rotate90(square1);
-//        status = checkArray(buffer, square2);
-//        return status;
-//    }
-//
-//    static boolean check180() {
-//        boolean status = true;
-//        boolean[][] buffer;
-//        buffer = rotate90(square1);
-//        buffer = rotate90(buffer);
-//        status = checkArray(buffer, square2);
-//        return status;
-//    }
-//
-//    static boolean check270() {
-//        boolean status = true;
-//        boolean[][] buffer;
-//        buffer = rotate90(square1);
-//        buffer = rotate90(buffer);
-//        buffer = rotate90(buffer);
-//        status = checkArray(buffer, square2);
-//        return status;
-//    }
+
     static boolean[][] XReflection(boolean[][] array) {
         boolean[][] buffer = new boolean[array.length][array[0].length];
         for (int counterY = 0; counterY < array.length; counterY++) {
@@ -108,20 +82,7 @@ public class transform {
         return buffer;
     }
 
-//    static boolean checkXReflection(boolean[][] array1, boolean[][] array2) {
-//        boolean status = true;
-//        int size = array1.length;
-//        for (int counterY = 0; counterY < size && status; counterY++) {
-//            for (int counterX = 0; counterX < Math.round(size / 2); counterX++) {
-//                if ((array1[counterY][counterX] && array2[counterY][size - 1 - counterX])
-//                        || !(array1[counterY][counterX] && array2[counterY][size - 1 - counterX])) {
-//                    status = false;
-//                }
-//            }
-//        }
-//        return status;
-//
-//    }
+
     static boolean checkYReflection() {
         boolean status = true;
         for (int counterX = 0; counterX < size && status; counterX++) {
@@ -145,19 +106,6 @@ public class transform {
         }
         return buffer;
     }
-
-//    static boolean checkArray(boolean[][] array1, boolean[][] array2) {
-//        boolean similarity = true;
-//        int size = array1.length;
-//        for (int counterY = 0; counterY < size && similarity; counterY++) {
-//            for (int counterX = 0; counterX < size && similarity; counterX++) {
-//                if (!(array1[counterY][counterX] == array2[counterY][counterX])) {
-//                    similarity = false;
-//                }
-//            }
-//        }
-//        return similarity;
-//    }
     static boolean[][] arrayCutter(boolean[][] array1) {
         boolean[][] buffer;
         int lengthY = array1.length;
