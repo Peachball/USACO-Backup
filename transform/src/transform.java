@@ -3,7 +3,6 @@
  TASK: transform
  LANG: JAVA
  */
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -42,32 +41,30 @@ public class transform {
             }
         }
         status = 7;
-        if (check90()) {
+        boolean[][] buffer;
+        if (Arrays.equals(arrayCutter(rotate90(square1)), arrayCutter(square2))) {
             status = 1;
         }
-        if (check180()) {
+        if (Arrays.equals(arrayCutter(rotate90(rotate90(square1))), arrayCutter(square2))) {
             status = 2;
         }
-        if (check270()) {
+        if (Arrays.equals(arrayCutter(rotate90(rotate90(rotate90(square1)))), arrayCutter(square2))) {
             status = 3;
         }
-        if (checkXReflection(arrayCutter(square1), arrayCutter(square2))) {
+        if (Arrays.equals(arrayCutter(XReflection(square1)), arrayCutter(square2))) {
             status = 4;
         }
-        if (checkXReflection(arrayCutter(rotate90(square1)), arrayCutter(square2))) {
+        if (Arrays.equals(arrayCutter(XReflection(rotate90(square1))), arrayCutter(square2))) {
             status = 5;
         }
-        if (checkXReflection(arrayCutter(rotate90(rotate90(square1))), arrayCutter(square2))) {
+        if (Arrays.equals(arrayCutter(XReflection(rotate90(rotate90(square1)))), arrayCutter(square2))) {
             status = 5;
-
         }
-        if (checkXReflection(arrayCutter(rotate90(rotate90(rotate90(square1)))), arrayCutter(square2))) {
+        if (Arrays.equals(arrayCutter(XReflection(rotate90(rotate90(rotate90(square1))))), arrayCutter(square2))) {
             status = 5;
-
         }
-        if (Arrays.equals(arrayCutter(square1), arrayCutter(square2))) {
+        if(Arrays.equals(arrayCutter(square1),arrayCutter(square2))){
             status = 6;
-
         }
         System.out.println(status);
         out.println(status);
@@ -75,50 +72,56 @@ public class transform {
         System.exit(0);
     }
 
-    static boolean check90() {
-        boolean status = true;
-        boolean[][] buffer;
-        buffer = rotate90(square1);
-        status = Arrays.equals(buffer, square2);
-        return status;
-    }
-
-    static boolean check180() {
-        boolean status = true;
-        boolean[][] buffer;
-        buffer = rotate90(square1);
-        buffer = rotate90(buffer);
-        status = Arrays.equals(buffer, square2);
-        return status;
-    }
-
-    static boolean check270() {
-        boolean status = true;
-        boolean[][] buffer;
-        buffer = rotate90(square1);
-        buffer = rotate90(buffer);
-        buffer = rotate90(buffer);
-        status = Arrays.equals(buffer, square2);
-        return status;
-    }
-
-    static boolean checkXReflection(boolean[][] array1, boolean[][] array2) {
-        boolean status = true;
-        boolean[][] buffer = new boolean[array1.length][array1[0].length];
-        int size = array1.length;
-        for (int counterY = 0; counterY < size && status; counterY++) {
-            for (int counterX = 0; counterX < Math.round(size / 2); counterX++) {
-                if ((array1[counterY][counterX] && array2[counterY][size - 1 - counterX])
-                        || !(array1[counterY][counterX] && array2[counterY][size - 1 - counterX])) {
-                    status = false;
-                }
-
+//    static boolean check90() {
+//        boolean status = true;
+//        boolean[][] buffer;
+//        buffer = rotate90(square1);
+//        status = checkArray(buffer, square2);
+//        return status;
+//    }
+//
+//    static boolean check180() {
+//        boolean status = true;
+//        boolean[][] buffer;
+//        buffer = rotate90(square1);
+//        buffer = rotate90(buffer);
+//        status = checkArray(buffer, square2);
+//        return status;
+//    }
+//
+//    static boolean check270() {
+//        boolean status = true;
+//        boolean[][] buffer;
+//        buffer = rotate90(square1);
+//        buffer = rotate90(buffer);
+//        buffer = rotate90(buffer);
+//        status = checkArray(buffer, square2);
+//        return status;
+//    }
+    static boolean[][] XReflection(boolean[][] array) {
+        boolean[][] buffer = new boolean[array.length][array[0].length];
+        for (int counterY = 0; counterY < array.length; counterY++) {
+            for (int counterX = 0; counterX < array[0].length; counterX++) {
+                buffer[counterY][counterX] = array[counterY][array.length - 1 - counterX];
             }
         }
-        return status;
-
+        return buffer;
     }
 
+//    static boolean checkXReflection(boolean[][] array1, boolean[][] array2) {
+//        boolean status = true;
+//        int size = array1.length;
+//        for (int counterY = 0; counterY < size && status; counterY++) {
+//            for (int counterX = 0; counterX < Math.round(size / 2); counterX++) {
+//                if ((array1[counterY][counterX] && array2[counterY][size - 1 - counterX])
+//                        || !(array1[counterY][counterX] && array2[counterY][size - 1 - counterX])) {
+//                    status = false;
+//                }
+//            }
+//        }
+//        return status;
+//
+//    }
     static boolean checkYReflection() {
         boolean status = true;
         for (int counterX = 0; counterX < size && status; counterX++) {
@@ -132,17 +135,29 @@ public class transform {
         return status;
     }
 
-    static boolean[][] rotate90(boolean[][] given) {
-        int size = given.length;
+    static boolean[][] rotate90(boolean[][] squareArray) {
+        int size = squareArray.length;
         boolean[][] buffer = new boolean[size][size];
         for (int counterY = 0; counterY < size; counterY++) {
             for (int counterX = 0; counterX < size; counterX++) {
-                buffer[counterY][counterX] = given[size - 1 - counterX][counterY];
+                buffer[counterY][counterX] = squareArray[size - 1 - counterX][counterY];
             }
         }
         return buffer;
     }
 
+//    static boolean checkArray(boolean[][] array1, boolean[][] array2) {
+//        boolean similarity = true;
+//        int size = array1.length;
+//        for (int counterY = 0; counterY < size && similarity; counterY++) {
+//            for (int counterX = 0; counterX < size && similarity; counterX++) {
+//                if (!(array1[counterY][counterX] == array2[counterY][counterX])) {
+//                    similarity = false;
+//                }
+//            }
+//        }
+//        return similarity;
+//    }
     static boolean[][] arrayCutter(boolean[][] array1) {
         boolean[][] buffer;
         int lengthY = array1.length;
