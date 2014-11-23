@@ -62,7 +62,7 @@ public class namenum {
 
     static String[] readNames(BufferedReader input) throws IOException {
         String buffer;
-        List<String> names = new LinkedList<String>();
+        LinkedList<String> names = new LinkedList<String>();
         int counter = 0;
         buffer = input.readLine();
         while (!(buffer == null)) {
