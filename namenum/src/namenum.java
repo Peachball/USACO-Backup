@@ -113,6 +113,7 @@ public class namenum {
             }
             if (isElementInArray(dictNames, name)) {
                 valids.add(name);
+
             }
             counters[0]++;
             for (int counter2 = 0; counter2 < counters.length; counter2++) {
@@ -133,6 +134,8 @@ public class namenum {
     }
 
     static boolean isElementInArray(String[] array, String element) {
+        int position1 = 0;
+        int position2 = array.length;
         for (int counter = 0; counter < array.length; counter++) {
             if (array[counter].equals(element)) {
                 return true;
