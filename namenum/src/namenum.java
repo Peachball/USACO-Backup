@@ -20,6 +20,7 @@ public class namenum {
     {'A', 'B', 'C'}, {'D', 'E', 'F'}, {'G', 'H', 'I'},
     {'J', 'K', 'L'}, {'M', 'N', 'O'}, {'P', 'R', 'S'},
     {'T', 'U', 'V'}, {'W', 'X', 'Y'}};
+    static String[] dictNames;
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         BufferedReader in = new BufferedReader(new FileReader("namenum.in"));
@@ -29,7 +30,7 @@ public class namenum {
 
         List<String> validNames = new ArrayList<String>();
         String[] names;
-        String[] dictNames = readNames(dictionary);
+        dictNames = readNames(dictionary);
 
         String buffer = in.readLine();
         int size = buffer.length();
@@ -37,7 +38,7 @@ public class namenum {
         for (int counter = 0; counter < size; counter++) {
             serialNum[counter] = (short) Integer.parseInt(buffer.charAt(counter) + "");
         }
-        names = instance.nameGenerator(serialNum, 0);
+        names = instance.nameGen2(serialNum);
         for (int counter = 0; counter < names.length; counter++) {
             if (isElementInArray(dictNames, names[counter])) {
                 validNames.add(names[counter]);
@@ -94,6 +95,40 @@ public class namenum {
         String[] output = new String[names.size()];
         names.toArray(output);
         return output;
+    }
+
+    static String[] nameGen2(short[] serialnum) {
+        String name;
+        ArrayList<String> valids = new ArrayList<String>();
+        short[] counters = new short[serialnum.length];
+        for (int counter = 0; counter < (int) Math.pow(3, serialnum.length); counter++) {
+            name = null;
+            for (int counter2 = 0; counter2 < serialnum.length; counter2++) {
+                if (name == null) {
+                    name = keypad[serialnum[counter2]][counters[counter2]] + "";
+                } else {
+                    name = name + keypad[serialnum[counter2]][counters[counter2]];
+                }
+            }
+            if (isElementInArray(dictNames, name)){
+             valids.add(name);   
+            }
+            counters[0]++;
+            for (int counter2 = 0; counter2 < counters.length; counter2++) {
+                if (counters[counters.length - 1] > 2) {
+                    String[] names = new String[valids.size()];
+                    valids.toArray(names);
+                    return names;
+                }
+                if (counters[counter2] > 2) {
+                    counters[counter2] = 0;
+                    counters[counter2 + 1]++;
+                }
+            }
+        }
+        String[] names = new String[valids.size()];
+        valids.toArray(names);
+        return names;
     }
 
     static boolean isElementInArray(String[] array, String element) {
