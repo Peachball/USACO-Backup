@@ -3,6 +3,7 @@
  TASK: namenum
  LANG: JAVA
  */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -110,8 +111,8 @@ public class namenum {
                     name = name + keypad[serialnum[counter2]][counters[counter2]];
                 }
             }
-            if (isElementInArray(dictNames, name)){
-             valids.add(name);   
+            if (isElementInArray(dictNames, name)) {
+                valids.add(name);
             }
             counters[0]++;
             for (int counter2 = 0; counter2 < counters.length; counter2++) {
