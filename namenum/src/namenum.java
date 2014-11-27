@@ -3,7 +3,6 @@
  TASK: namenum
  LANG: JAVA
  */
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -136,11 +135,33 @@ public class namenum {
     static boolean isElementInArray(String[] array, String element) {
         int position1 = 0;
         int position2 = array.length;
-        for (int counter = 0; counter < array.length; counter++) {
-            if (array[counter].equals(element)) {
-                return true;
+        int status;
+        while (position1 != position2) {
+            for (int counter = 0; counter < element.length(); counter++) {
+                
             }
         }
         return false;
     }
+
+    static short compare(String element1, String element2) {
+        int minSize = 0;
+        if (element1.length() < element2.length()) {
+            minSize = element1.length();
+        } else {
+            minSize = element2.length();
+        }
+        for (int counter = 0; counter < minSize; counter++) {
+            if(element1.charAt(counter) > element2.charAt(counter)){
+                return 1;
+            }
+            if(element1.charAt(counter)<element2.charAt(counter)){
+                return 2;
+            }
+        }
+        return 0;
+    }// 0 is equalivalent
+    //1 is greater than (z would be the greatest)
+    //2 is less than (a would be the least)
+    // 
 }
