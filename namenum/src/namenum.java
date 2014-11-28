@@ -135,10 +135,27 @@ public class namenum {
     static boolean isElementInArray(String[] array, String element) {
         int position1 = 0;
         int position2 = array.length;
-        int status;
+        int status = 0;
+        boolean alt = true;
+        int counter = 0;
         while (position1 != position2) {
-            for (int counter = 0; counter < element.length(); counter++) {
-                
+            if (alt) {
+                counter = (int) (position1 + position2) / 2;
+                alt = false;
+            } else {
+                counter = (int) (position1 + position2) / 2 +1;
+                alt = true;
+            }
+            status = compare(element, array[counter]);
+            switch (status) {
+                case 0:
+                    return true;
+                case 1:
+                    position1 = counter;
+                    break;
+                case 2:
+                    position2 = counter;
+                    break;
             }
         }
         return false;
@@ -146,20 +163,24 @@ public class namenum {
 
     static short compare(String element1, String element2) {
         int minSize = 0;
+        int shortestElement = 0;
         if (element1.length() < element2.length()) {
             minSize = element1.length();
-        } else {
+            shortestElement = 1;
+        }
+        if (element1.length() > element2.length()) {
             minSize = element2.length();
+            shortestElement = 2;
         }
         for (int counter = 0; counter < minSize; counter++) {
-            if(element1.charAt(counter) > element2.charAt(counter)){
+            if (element1.charAt(counter) > element2.charAt(counter)) {
                 return 1;
             }
-            if(element1.charAt(counter)<element2.charAt(counter)){
+            if (element1.charAt(counter) < element2.charAt(counter)) {
                 return 2;
             }
         }
-        return 0;
+        return (short) shortestElement;
     }// 0 is equalivalent
     //1 is greater than (z would be the greatest)
     //2 is less than (a would be the least)
