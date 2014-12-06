@@ -3,6 +3,7 @@
  PROG: palsquare
  LANG: JAVA
  */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -29,7 +30,7 @@ public class palsquare {
             int buffer = counter;
             newBaseSquare = "";
             newBaseValue = "";
-            
+
             //Convert original number into base (int to String)
             for (int counter1 = 0;; counter1++) {       //Find the highest digit...
                 if (Math.pow(base, counter1) > buffer) {
@@ -39,18 +40,21 @@ public class palsquare {
             }
             for (; a >= 0; a--) {     //Input the appropriate digits into the string
                 for (int counter1 = 0; counter1 <= base; counter1++) {     //check what is multiplied with the power
-                    if ((Math.pow(base, a) * counter1) > buffer) {
+                    if ((Math.pow(base, a) * counter1) > buffer && counter1 - 1 < 10) {
                         newBaseValue = newBaseValue + (counter1 - 1);
                         buffer = (int) (buffer - Math.pow(base, a) * (counter1 - 1));
+                        break;
+                    } else if ((Math.pow(base, a) * counter1) > x) {
+                        newBaseValue = newBaseValue + (char) (counter1 - 11 + 'A');
+                        x = (int) (x - Math.pow(base, a) * (counter1 - 1));
                         break;
                     }
                 }
             }
 
-            //Apparently this is where the code gets buggy and stops working...
             //Convert square into base (int to String)
             a = 0;
-            x = counter*counter;
+            x = counter * counter;
             for (int counter1 = 0;; counter1++) {       //Find the highest digit...
                 if (Math.pow(base, counter1) > x) {
                     a = counter1 - 1;
@@ -59,8 +63,12 @@ public class palsquare {
             }
             for (; a >= 0; a--) {     //Input the appropriate digits into the string
                 for (int counter1 = 0; counter1 <= base; counter1++) {     //check what is multiplied with the power
-                    if ((Math.pow(base, a) * counter1) > x) {
+                    if ((Math.pow(base, a) * counter1) > x && counter1 - 1 < 10) {
                         newBaseSquare = newBaseSquare + (counter1 - 1);
+                        x = (int) (x - Math.pow(base, a) * (counter1 - 1));
+                        break;
+                    } else if ((Math.pow(base, a) * counter1) > x) {
+                        newBaseSquare = newBaseSquare + (char) (counter1 - 11 + 'A');
                         x = (int) (x - Math.pow(base, a) * (counter1 - 1));
                         break;
                     }
