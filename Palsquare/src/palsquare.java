@@ -44,9 +44,9 @@ public class palsquare {
                         newBaseValue = newBaseValue + (counter1 - 1);
                         buffer = (int) (buffer - Math.pow(base, a) * (counter1 - 1));
                         break;
-                    } else if ((Math.pow(base, a) * counter1) > x) {
+                    } else if ((Math.pow(base, a) * counter1) > buffer) {
                         newBaseValue = newBaseValue + (char) (counter1 - 11 + 'A');
-                        x = (int) (x - Math.pow(base, a) * (counter1 - 1));
+                        buffer = (int) (buffer - Math.pow(base, a) * (counter1 - 1));
                         break;
                     }
                 }
