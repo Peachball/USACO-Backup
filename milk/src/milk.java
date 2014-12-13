@@ -34,18 +34,33 @@ public class milk {
             buffer = in.readLine();
         }
         farmers.sort(new FarmerCostComparator());
+
+        int unitsObtained = 0;
+        int bufferedPrice = 0;
+        int counter = 0;
+        while (unitsObtained < unitsNeeded) {
+            if (counter < farmers.size()) {
+                unitsObtained += farmers.get(counter).unitsSellable;
+                bufferedPrice += farmers.get(counter).costPerUnit * farmers.get(counter).unitsSellable;
+                counter++;
+            } else {
+                
+            }
+        }
         out.close();
         System.exit(0);
     }
 }
-class FarmerCostComparator implements Comparator<Farmer>{
+
+class FarmerCostComparator implements Comparator<Farmer> {
 
     @Override
     public int compare(Farmer t, Farmer t1) {
-        return t.costPerUnit-t1.costPerUnit;
+        return t.costPerUnit - t1.costPerUnit;
     }
-    
+
 }
+
 class Farmer {
 
     public int costPerUnit;
