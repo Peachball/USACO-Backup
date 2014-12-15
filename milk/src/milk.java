@@ -3,6 +3,7 @@
  TASK: milk
  LANG: JAVA
  */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
 
@@ -33,8 +36,7 @@ public class milk {
             farmers.add(new Farmer(Integer.parseInt(reader.nextToken()), Integer.parseInt(reader.nextToken())));
             buffer = in.readLine();
         }
-        farmers.sort(new FarmerCostComparator());
-
+        Collections.sort(farmers, new FarmerCostComparator());
         int unitsObtained = 0;
         int bufferedPrice = 0;
         int counter = 0;
@@ -44,7 +46,7 @@ public class milk {
                 bufferedPrice += farmers.get(counter).costPerUnit * farmers.get(counter).unitsSellable;
                 counter++;
             } else {
-                
+
             }
         }
         out.close();
@@ -70,4 +72,5 @@ class Farmer {
         this.costPerUnit = costPerUnit;
         this.unitsSellable = unitsSellable;
     }
+
 }
