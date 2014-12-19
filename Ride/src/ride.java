@@ -34,7 +34,7 @@ class ride {
         }
         if (sumOne % 47 == sumTwo % 47) {
             out.println("GO");
-        } else{
+        } else {
             out.println("STAY");
         }
         out.close();
