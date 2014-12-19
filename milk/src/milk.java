@@ -27,6 +27,7 @@ public class milk {
         reader = new StringTokenizer(in.readLine());
         int unitsNeeded = Integer.parseInt(reader.nextToken());
         int numofFarmers = Integer.parseInt(reader.nextToken());
+        int[] markers = new int[numofFarmers];
         String buffer = in.readLine();
         ArrayList<Farmer> farmers = new ArrayList<Farmer>();
 
@@ -39,16 +40,20 @@ public class milk {
         Collections.sort(farmers, new FarmerCostComparator());
         int unitsObtained = 0;
         int bufferedPrice = 0;
-        int counter = 0;
-        while (unitsObtained < unitsNeeded) {
-            if (counter < farmers.size()) {
-                unitsObtained += farmers.get(counter).unitsSellable;
-                bufferedPrice += farmers.get(counter).costPerUnit * farmers.get(counter).unitsSellable;
-                counter++;
-            } else {
 
+        for (int counter = 0; counter < markers.length; counter++) {
+            markers[counter] = counter;
+        }
+
+        //Move the markers in the correct fashion
+        while (unitsObtained >= unitsNeeded) {
+            //Sum up the current number of units
+            int bufferedUnitsObtained= 0;
+            while (bufferedUnitsObtained == 0) {
+                
             }
         }
+
         out.close();
         System.exit(0);
     }
