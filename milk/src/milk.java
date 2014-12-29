@@ -3,7 +3,6 @@
  TASK: milk
  LANG: JAVA
  */
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
@@ -39,21 +37,51 @@ public class milk {
         }
         Collections.sort(farmers, new FarmerCostComparator());
         int unitsObtained = 0;
-        int bufferedPrice = 0;
+        int unitCost = 0;
 
+        //initialize the markers
         for (int counter = 0; counter < markers.length; counter++) {
             markers[counter] = counter;
         }
 
-        //Move the markers in the correct fashion
-        while (unitsObtained >= unitsNeeded) {
-            //Sum up the current number of units
-            int bufferedUnitsObtained= 0;
-            while (bufferedUnitsObtained == 0) {
-                
+        int bufferedUnitsObtained = 0;
+        int bufferedCost = 0;
+        for (int counter = 0; counter < markers.length; counter++) {
+            bufferedUnitsObtained += farmers.get(markers[counter]).unitsSellable;
+            bufferedCost += farmers.get(markers[counter]).unitsSellable * farmers.get(markers[counter]).costPerUnit;
+            if (bufferedUnitsObtained > unitsNeeded) {
+                int diff = bufferedUnitsObtained - unitsNeeded;
+                bufferedCost -= diff * farmers.get(markers[counter]).costPerUnit;
+                bufferedUnitsObtained = unitsNeeded;
+                break;
             }
         }
+        unitsObtained = bufferedUnitsObtained;
+        unitCost = bufferedCost;
 
+        int currentMarker = markers.length;
+        //Check if total units is less than required amount
+        while (unitsObtained >= unitsNeeded) {
+            if (currentMarker < 0) {
+                currentMarker = markers.length;
+            }
+            //move markers
+            int bufferedMarker = markers[currentMarker];
+            bufferedUnitsObtained = farmers.get(markers[currentMarker]).unitsSellable;
+//            bufferedCost = farmers.get(markers[currentMarker]).costPerUnit;
+            while (bufferedUnitsObtained > farmers.get(bufferedMarker).unitsSellable) {
+                bufferedMarker++;
+                if (currentMarker < markers.length - 1 && bufferedMarker >= markers[currentMarker + 1]) {
+                    bufferedMarker = markers[currentMarker];
+                    break;
+                }
+            }
+            markers[currentMarker] = bufferedMarker;
+            //sum up units
+            currentMarker--;
+        }
+
+        out.println(unitCost);
         out.close();
         System.exit(0);
     }
