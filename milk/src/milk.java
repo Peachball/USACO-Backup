@@ -44,6 +44,7 @@ public class milk {
             markers[counter] = counter;
         }
 
+        //Figure out whether or not the cheapest ppl give enough milk
         int bufferedUnitsObtained = 0;
         int bufferedCost = 0;
         for (int counter = 0; counter < markers.length; counter++) {
@@ -57,18 +58,18 @@ public class milk {
             }
         }
         unitsObtained = bufferedUnitsObtained;
-        unitCost = bufferedCost;
 
-        int currentMarker = markers.length;
+        int currentMarker = markers.length - 1;
+
         //Check if total units is less than required amount
         while (unitsObtained >= unitsNeeded) {
             if (currentMarker < 0) {
-                currentMarker = markers.length;
+                currentMarker = markers.length - 1;
             }
+
             //move markers
             int bufferedMarker = markers[currentMarker];
             bufferedUnitsObtained = farmers.get(markers[currentMarker]).unitsSellable;
-//            bufferedCost = farmers.get(markers[currentMarker]).costPerUnit;
             while (bufferedUnitsObtained > farmers.get(bufferedMarker).unitsSellable) {
                 bufferedMarker++;
                 if (currentMarker < markers.length - 1 && bufferedMarker >= markers[currentMarker + 1]) {
@@ -78,10 +79,26 @@ public class milk {
             }
             markers[currentMarker] = bufferedMarker;
             //sum up units
+            unitsObtained = 0;
+            for (int counter = 0; counter < markers.length; counter++) {
+                unitsObtained += farmers.get(markers[counter]).unitsSellable;
+            }
             currentMarker--;
         }
 
-        out.println(unitCost);
+        //Check pricing of total sum
+        bufferedCost = 0;
+        unitsObtained = 0;
+        for (int counter = 0; counter < markers.length; counter++) {
+            bufferedCost += farmers.get(markers[counter]).costPerUnit * farmers.get(markers[counter]).unitsSellable;
+            unitsObtained += farmers.get(markers[counter]).unitsSellable;
+        }
+        if (unitsObtained > unitsNeeded) {
+            int diff = bufferedUnitsObtained - unitsNeeded;
+            bufferedCost -= diff * farmers.get(markers[markers.length - 1]).costPerUnit;
+        }
+        out.println(bufferedCost);
+        System.out.println(bufferedCost);
         out.close();
         System.exit(0);
     }
