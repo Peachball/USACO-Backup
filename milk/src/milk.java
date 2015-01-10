@@ -24,6 +24,12 @@ public class milk {
         //Initialize the requirements
         reader = new StringTokenizer(in.readLine());
         int unitsNeeded = Integer.parseInt(reader.nextToken());
+        if(unitsNeeded == 0){
+            out.println(0);
+            System.out.println(0);
+            out.close();
+            System.exit(0);
+        }
         int numofFarmers = Integer.parseInt(reader.nextToken());
         int[] markers = new int[numofFarmers];
         String buffer = in.readLine();
@@ -62,7 +68,7 @@ public class milk {
         int currentMarker = markers.length - 1;
 
         //Check if total units is less than required amount
-        while (unitsObtained >= unitsNeeded) {
+        while (unitsObtained < unitsNeeded) {
             if (currentMarker < 0) {
                 currentMarker = markers.length - 1;
             }
@@ -89,14 +95,28 @@ public class milk {
         //Check pricing of total sum
         bufferedCost = 0;
         unitsObtained = 0;
+        currentMarker = markers.length - 1;
         for (int counter = 0; counter < markers.length; counter++) {
             bufferedCost += farmers.get(markers[counter]).costPerUnit * farmers.get(markers[counter]).unitsSellable;
             unitsObtained += farmers.get(markers[counter]).unitsSellable;
         }
-        if (unitsObtained > unitsNeeded) {
-            int diff = bufferedUnitsObtained - unitsNeeded;
-            bufferedCost -= diff * farmers.get(markers[markers.length - 1]).costPerUnit;
+        while (unitsObtained > unitsNeeded) {
+            int diff = unitsObtained - unitsNeeded;
+
+            if (farmers.get(markers[currentMarker]).unitsSellable <= diff) {
+                unitsObtained = unitsObtained - farmers.get(markers[currentMarker]).unitsSellable;
+                bufferedCost -= farmers.get(markers[currentMarker]).costPerUnit * farmers.get(markers[currentMarker]).unitsSellable;
+                currentMarker--;
+                continue;
+            }
+            unitsObtained -= diff;
+            bufferedCost -= diff * farmers.get(markers[currentMarker]).costPerUnit;
         }
+//        while (unitsObtained > unitsNeeded) {
+//            int diff = unitsObtained - unitsNeeded;
+//            unitsObtained -=diff;
+//            bufferedCost -= diff * farmers.get(markers[markers.length - 1]).costPerUnit;
+//        }
         out.println(bufferedCost);
         System.out.println(bufferedCost);
         out.close();
