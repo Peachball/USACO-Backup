@@ -37,18 +37,23 @@ public class combo {
                 for (int counter4 = -2; counter4 < 3; counter4++) {
                     Collections.sort(possibilities, new CombinationComparator());
                     Combination buffer = new Combination(subtract(farmer.num1, counter2, max), subtract(farmer.num2, counter3, max), subtract(farmer.num3, counter4, max));
-                    if (Collections.binarySearch(possibilities, buffer, new CombinationComparator()) == -1) {
+                    if (Collections.binarySearch(possibilities, buffer, new CombinationComparator()) < 0) {
                         possibilities.add(buffer);
                     }
                     buffer = new Combination(subtract(master.num1, counter2, max), subtract(master.num2, counter3, max), subtract(master.num3, counter4, max));
                     Collections.sort(possibilities, new CombinationComparator());
-                    if (Collections.binarySearch(possibilities, buffer, new CombinationComparator()) == -1) {
+                    if (Collections.binarySearch(possibilities, buffer, new CombinationComparator()) < 0) {
                         possibilities.add(buffer);
                     }
                 }
             }
         }
-
+        if( max == 1){
+            out.println(1);
+            System.out.println(1);
+            out.close();
+            System.exit(0);
+        }
         out.println(possibilities.size());
         System.out.println(possibilities.size());
         out.close();
@@ -57,7 +62,14 @@ public class combo {
 
     private static int subtract(int x, int y, int max) {
         if (x - y <= 0) {
-            return x - y + max;
+            int buffer = x - y + max;
+            while (buffer <= 0) {
+                buffer += max;
+            }
+            return buffer;
+        }
+        else if(x-y>max){
+            return x-y-max;
         }
         return x - y;
     }
