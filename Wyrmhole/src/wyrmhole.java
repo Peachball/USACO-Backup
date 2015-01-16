@@ -19,11 +19,11 @@ public class wyrmhole {
         PrintWriter out = new PrintWriter(new FileWriter("wormhole.out"));
         int max = 0;
         max = Integer.parseInt(in.readLine());
-        int input[][] = new int[max][2];
+        Coord input[] = new Coord[max];
         for (int counter = 0; counter < max; counter++) {
             StringTokenizer read = new StringTokenizer(in.readLine());
-            input[counter][0] = Integer.parseInt(read.nextToken());
-            input[counter][1] = Integer.parseInt(read.nextToken());
+            input[counter].x = Integer.parseInt(read.nextToken());
+            input[counter].y = Integer.parseInt(read.nextToken());
         }
 
         for(int counter = 0;;counter++){
@@ -37,12 +37,13 @@ public class wyrmhole {
 
 class /* STRUCT */ Wormhole {
 
-    public int inputX;
-    public int inputY;
-    public int outputX;
-    public int outputY;
+    public Coord input;
+    public Coord output;
 }
 class /* STRUCT */ Coord{
     public int x;
     public int y;
+    public Coord(){
+        
+    }
 }
