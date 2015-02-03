@@ -7,11 +7,11 @@ LANG: C
 #include <stdio.h>
 #include <stdlib.h>
 
-int digits(const int x){
-    int buffer =x;
+int digits(const int x) {
+    int buffer = x;
     int counter = 1;
-    while(buffer>9){
-        buffer = buffer/10;
+    while (buffer > 9) {
+        buffer = buffer / 10;
         counter++;
     }
     return counter;
@@ -36,8 +36,11 @@ int main(int argc, char** argv) {
             digits[counter] = buffer - '0';
         }
     }
-    
-    
+
+    while(1){
+        
+    }
+
 
     return (EXIT_SUCCESS);
 }
